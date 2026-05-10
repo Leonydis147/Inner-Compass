@@ -10,6 +10,7 @@ AI-powered journaling coach combining biblical psychology and behavioral science
 - 🔍 **Vector Memory** - Semantic search across past entries
 - 🛡️ **Safety First** - Crisis detection with resources
 - 📈 **Weekly Trends** - Pattern recognition over time
+- 💳 **Stripe Integration** - Subscription billing (Basic & Pro plans)
 
 ## Tech Stack
 
@@ -36,6 +37,9 @@ Edit `.env.local` with your keys:
 - `OPENAI_API_KEY` - OpenAI API key
 - `SUPABASE_URL` - Your Supabase project URL
 - `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
+- `STRIPE_SECRET_KEY` - Stripe secret key (sk_test_...)
+- `STRIPE_PUBLISHABLE_KEY` - Stripe publishable key (pk_test_...)
+- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret (whsec_...)
 - `NEXT_PUBLIC_SUPABASE_URL` - Public Supabase URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon key
 
