@@ -43,12 +43,20 @@ export default function PricingPage() {
     setLoading(plan);
     
     try {
+      // Get current user
+      const { data: { user } } = await fetch('/api/auth/user').then(r => r.json());
+      
+      if (!user) {
+        window.location.href = '/auth';
+        return;
+      }
+
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: 'demo-user', // Replace with actual user ID from auth
-          email: 'user@example.com', // Replace with actual user email
+          userId: user.id,
+          email: user.email,
           plan,
         }),
       });

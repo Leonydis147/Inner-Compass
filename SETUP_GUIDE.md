@@ -80,7 +80,7 @@ You'll need to set up Stripe separately for subscription billing.
    
    # Supabase Public (for client-side)
    NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_eEgwUSwluZy_hpWeYL4J0Q_7SjujQLJ
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
    
    # Stripe (optional - create at https://dashboard.stripe.com/apikeys)
    STRIPE_SECRET_KEY=sk_test_...

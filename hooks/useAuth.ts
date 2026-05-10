@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { createClient } from '@/utils/supabase/client';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
 
   useEffect(() => {
     // Get initial session
