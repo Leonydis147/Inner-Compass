@@ -2,11 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Allow large API responses (streaming)
-  api: {
-    responseLimit: false,
-  },
-  // Vercel deployment optimizations
+  // Image optimization
   images: {
     domains: [],
   },
