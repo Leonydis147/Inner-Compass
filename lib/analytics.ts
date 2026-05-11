@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getSupabaseAdmin } from './supabaseAdmin';
 
 export async function logExperiment(
   userId: string,
@@ -12,12 +7,12 @@ export async function logExperiment(
   inputLength: number,
   response: any
 ) {
-  await supabase.from('ab_test_events').insert({
+  await getSupabaseAdmin().from('ab_test_events').insert({
     user_id: userId,
     model_used: modelUsed,
     latency_ms: latencyMs,
     input_length: inputLength,
     response_length: JSON.stringify(response).length,
-    timestamp: new Date(),
+    timestamp: new Date().toISOString(),
   }).select(); // ignore result
 }

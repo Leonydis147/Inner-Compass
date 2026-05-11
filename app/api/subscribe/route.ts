@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { createCheckoutSession } from '@/lib/stripe';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 export async function POST(req: NextRequest) {
   const { userId, email, plan } = await req.json();
@@ -28,20 +23,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
   try {
     const session = await createCheckoutSession({
       userId,
       email,
       priceId,
-      successUrl: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancelUrl: `${baseUrl}/pricing`,
+      successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/subscription/success`,
+      cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
     });
+
+    // Store pending subscription in database
+    await getSupabaseAdmin()
+      .from('user_profiles')
+      .upsert({
+        id: userId,
+        email,
+        stripe_subscription_id: session.id,
+        subscription_status: 'pending',
+        updated_at: new Date().toISOString(),
+      });
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error('Checkout session creation failed:', error);
+    console.error('Subscription error:', error);
     return NextResponse.json(
       { error: 'Failed to create checkout session' },
       { status: 500 }

@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { openai } from '@/lib/openai';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 export async function POST(req: NextRequest) {
   const { userId, circleId } = await req.json();
@@ -15,7 +10,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Fetch recent entries for this circle
-  const { data: entries } = await supabase
+  const { data: entries } = await getSupabaseAdmin()
     .from('journal_entries')
     .select('content, detected_emotion, life_domain')
     .eq('user_id', userId)

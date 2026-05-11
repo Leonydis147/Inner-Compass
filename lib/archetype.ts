@@ -1,13 +1,8 @@
 import { openai } from './openai';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getSupabaseAdmin } from './supabaseAdmin';
 
 export async function getUserArchetypeProfile(userId: string) {
-  const { data } = await supabase
+  const { data } = await getSupabaseAdmin()
     .from('user_archetype_profiles')
     .select('primary_archetype, secondary_archetype')
     .eq('user_id', userId)

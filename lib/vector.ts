@@ -1,10 +1,5 @@
 import { openai } from './openai';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getSupabaseAdmin } from './supabaseAdmin';
 
 export async function getEmbedding(text: string): Promise<number[]> {
   const response = await openai.embeddings.create({
@@ -20,7 +15,7 @@ export async function findSimilarEntries(
   limit: number = 2
 ) {
   const embedding = await getEmbedding(text);
-  const { data } = await supabase.rpc('match_journal_entries', {
+  const { data } = await getSupabaseAdmin().rpc('match_journal_entries', {
     query_embedding: embedding,
     match_threshold: 0.7,
     match_count: limit,

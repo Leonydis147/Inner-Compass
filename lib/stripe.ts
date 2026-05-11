@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-02-24.acacia',
   typescript: true,
 });
 
@@ -50,21 +50,9 @@ export async function createCheckoutSession({
 }
 
 export async function createPortalSession(userId: string, returnUrl: string) {
-  // You'll need to store the Stripe customer ID in your database
-  // This is a simplified example
-  const customer = await stripe.customers.list({
-    metadata: { userId },
-    limit: 1,
-  });
-
-  if (customer.data.length === 0) {
-    throw new Error('No customer found for user');
-  }
-
-  const portalSession = await stripe.billingPortal.sessions.create({
-    customer: customer.data[0].id,
-    return_url: returnUrl,
-  });
-
-  return portalSession;
+  // Note: In production, store Stripe customer_id in your database
+  // This is a simplified example - you'll need to query your DB for the customer_id
+  throw new Error(
+    'createPortalSession: Store customer_id in your database and retrieve it for user: ' + userId
+  );
 }
