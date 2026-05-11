@@ -4,11 +4,5 @@
       "maxDuration": 60,
       "memory": 1024
     }
-  },
-  ".env.local": {
-    "OPENAI_API_KEY": "@openai_api_key",
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
-    "FINE_TUNE_MODEL_ID": "@fine_tune_model_id"
   }
 }
